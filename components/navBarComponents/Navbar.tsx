@@ -6,18 +6,19 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import { UserButton, useAuth, useUser } from "@clerk/nextjs";
+import { useTheme } from "next-themes";
 
 import { burgerMenu, darkModeIcon, lightModeIcon } from "@/public/svg-icons";
 import { navButtons } from "@/constants/index";
 import MobileNavbar from "./MobileNavbar";
 
-const theme = "light";
-
 const Navbar = () => {
 	const { user } = useUser();
 	const userImage = user?.profileImageUrl;
 	const { userId } = useAuth();
-	const [showMobileMenu, setShowMobileMenu] = useState(true);
+	const [showMobileMenu, setShowMobileMenu] = useState(false);
+	const { systemTheme, theme, setTheme } = useTheme();
+	const currentTheme = theme === "system" ? systemTheme : theme;
 	const pathname = usePathname();
 
 	const isSmallerDevice = useMediaQuery(
@@ -83,6 +84,9 @@ const Navbar = () => {
 						height={20}
 						width={20}
 						alt="light mode icon"
+						onClick={() =>
+							setTheme(currentTheme === "dark" ? "light" : "dark")
+						}
 						className="cursor-pointer"
 					/>
 					<div className="mx-3 md:hidden">
@@ -104,6 +108,7 @@ const Navbar = () => {
 			{/* Mobile Nav  */}
 			{showMobileMenu && (
 				<MobileNavbar
+					theme={theme}
 					pathname={pathname}
 					handleCloseMobileMenu={handleCloseMobileMenu}
 					userId={userId}

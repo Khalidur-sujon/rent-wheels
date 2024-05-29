@@ -14,15 +14,15 @@ import {
 import { navButtons } from "@/constants";
 
 interface MobileNavBarProps {
+	theme: string | undefined;
 	pathname: string;
 	handleCloseMobileMenu: () => void;
-	userId: string;
-	userImage: string;
+	userId?: string | null | undefined;
+	userImage?: string;
 }
 
-const theme = "light";
-
 const MobileNavbar: React.FC<MobileNavBarProps> = ({
+	theme,
 	pathname,
 	handleCloseMobileMenu,
 	userId,
@@ -87,12 +87,13 @@ const MobileNavbar: React.FC<MobileNavBarProps> = ({
 
 					{/* Profile Link */}
 					<Link
+						onClick={handleCloseMenu}
 						href={userId ? "/profile" : "/sign-in"}
 						className="mt-5 mb-3 rounded"
 					>
 						<button className="w-full flex items-center justify-center border-blue50 rounded-lg  bg-white text-blue500 dark:bg-gray700 dark:text-blue300 py-3.5 text-sm font-semibold">
 							<Image
-								src={profilePic}
+								src={userImage ? userImage : profilePic}
 								height={20}
 								width={20}
 								alt="profile pic"
