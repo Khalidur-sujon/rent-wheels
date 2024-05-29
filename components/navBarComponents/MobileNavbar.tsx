@@ -5,12 +5,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-import { whiteCross, cross, darkModeHome } from "@/public/svg-icons";
+import {
+	whiteCross,
+	cross,
+	darkModeHome,
+	profilePic,
+} from "@/public/svg-icons";
 import { navButtons } from "@/constants";
 
 interface MobileNavBarProps {
 	pathname: string;
 	handleCloseMobileMenu: () => void;
+	userId: string;
+	userImage: string;
 }
 
 const theme = "light";
@@ -18,6 +25,8 @@ const theme = "light";
 const MobileNavbar: React.FC<MobileNavBarProps> = ({
 	pathname,
 	handleCloseMobileMenu,
+	userId,
+	userImage,
 }) => {
 	const [closeMenu, setCloseMenu] = useState(false);
 
@@ -49,7 +58,7 @@ const MobileNavbar: React.FC<MobileNavBarProps> = ({
 
 				{/* Nav Links */}
 				<div>
-					{navButtons.map((button) => (
+					{navButtons.slice(0, 3).map((button) => (
 						<Link
 							key={button.path}
 							href={button.path}
@@ -75,6 +84,36 @@ const MobileNavbar: React.FC<MobileNavBarProps> = ({
 							<p className="ml-1.5 text-sm">{button.title}</p>
 						</Link>
 					))}
+
+					{/* Profile Link */}
+					<Link
+						href={userId ? "/profile" : "/sign-in"}
+						className="mt-5 mb-3 rounded"
+					>
+						<button className="w-full flex items-center justify-center border-blue50 rounded-lg  bg-white text-blue500 dark:bg-gray700 dark:text-blue300 py-3.5 text-sm font-semibold">
+							<Image
+								src={profilePic}
+								height={20}
+								width={20}
+								alt="profile pic"
+								className={`${
+									userId
+										? "mr-1.5 flex min-h-[20px] rounded-full "
+										: "hidden"
+								}`}
+							/>
+
+							<p>{userId ? "My Profile" : "Login"}</p>
+						</button>
+					</Link>
+
+					<button
+						className={`${
+							userId ? "flex" : "hidden"
+						} w-full items-center justify-center rounded bg-red400 py-3.5 text-sm font-semibold text-white mt-2`}
+					>
+						Logout
+					</button>
 				</div>
 			</motion.div>
 
