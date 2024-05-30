@@ -1,5 +1,15 @@
 import mongoose from "mongoose";
 
+export interface ReviewDocument {
+	_id?: string;
+	userId: string;
+	carId: string;
+	rating: number;
+	title: string;
+	content: string;
+	datePosted?: Date;
+}
+
 export interface ReviewData {
 	_id?: string;
 	userId?: {
