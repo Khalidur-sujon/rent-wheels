@@ -49,6 +49,7 @@ export interface UserParams {
 	coverImage?: string;
 	bio?: string;
 	onboarded?: boolean;
+	path?: string;
 	carsAdded?: CardAddedParams[];
 	carsRented?: CarRentedParams[];
 }
